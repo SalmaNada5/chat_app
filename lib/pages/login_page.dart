@@ -1,4 +1,4 @@
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:scholar_chat/constants.dart';
@@ -96,20 +96,20 @@ class _LoginPageState extends State<LoginPage> {
                     if (formKey.currentState!.validate()) {
                       isLoading = true;
                       setState(() {});
-                      // try {
-                      //   await loginUser();
-                      //   Navigator.pushNamed(context, ChatPage.id,
-                      //       arguments: email);
-                      // } on FirebaseAuthException catch (ex) {
-                      //   if (ex.code == 'user-not-found') {
-                      //     showSnackBar(context, 'user not found');
-                      //   } else if (ex.code == 'wrong-password') {
-                      //     showSnackBar(context, 'wrong password');
-                      //   }
-                      // } catch (ex) {
-                      //   debugPrint('$ex');
-                      //   showSnackBar(context, 'there was an error');
-                      // }
+                      try {
+                        await loginUser();
+                        Navigator.pushNamed(context, ChatPage.id,
+                            arguments: email);
+                      } on FirebaseAuthException catch (ex) {
+                        if (ex.code == 'user-not-found') {
+                          showSnackBar(context, 'user not found');
+                        } else if (ex.code == 'wrong-password') {
+                          showSnackBar(context, 'wrong password');
+                        }
+                      } catch (ex) {
+                        debugPrint('$ex');
+                        showSnackBar(context, 'there was an error');
+                      }
 
                       isLoading = false;
                       setState(() {});
@@ -151,8 +151,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> loginUser() async {
-    // UserCredential user = await FirebaseAuth.instance
-    //     .signInWithEmailAndPassword(email: email!, password: password!);
-    // debugPrint('userrrrrr: $user');
+    UserCredential user = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email!, password: password!);
+    debugPrint('userrrrrr: $user');
   }
 }
